@@ -37,11 +37,18 @@ interface Report {
 class SalesReport implements Report {
   // TODO: implementar el método e imprimir en consola:
   // 'Generando reporte de ventas...'
+  generate(): void {
+    console.log('Generando reportes de %cVentas ',COLORS.blue)
+  }
+
 }
 
 class InventoryReport implements Report {
   // TODO: implementar el método e imprimir en consola:
   // 'Generando reporte de inventario...'
+  generate(): void{
+    console.log('Generando reporte de %cInventario ',COLORS.cyan)
+  }
 }
 
 // 3. Clase Base ReportFactory con el Método Factory
@@ -58,15 +65,17 @@ abstract class ReportFactory {
 // 4. Clases Concretas de Fábricas de Reportes
 
 class SalesReportFactory extends ReportFactory {
-  createReport(): Report {
-    throw new Error('Method not implemented.');
+  override createReport(): Report {
+    return new SalesReport();
   }
+  
 }
 
 class InventoryReportFactory extends ReportFactory {
-  createReport(): Report {
-    throw new Error('Method not implemented.');
+  override createReport(): Report {
+    return new InventoryReport();
   }
+  
 }
 
 // 5. Código Cliente para Probar
@@ -74,18 +83,21 @@ class InventoryReportFactory extends ReportFactory {
 function main() {
   let reportFactory: ReportFactory;
 
-  const reportType = prompt(
-    '¿Qué tipo de reporte deseas? %c(sales/inventory)',
-    COLORS.red
-  );
+  const reportType = prompt('¿Qué tipo de reporte deseas? ( Sales / Inventory)');
 
-  if (reportType === 'sales') {
-    reportFactory = new SalesReportFactory();
-  } else {
-    reportFactory = new InventoryReportFactory();
+  switch(reportType){
+    case 'sales':
+      reportFactory = new SalesReportFactory();
+    break;
+    case 'inventory':
+      reportFactory = new InventoryReportFactory();
+    break;
+    default:
+      throw new Error('Opción no válida! ')
   }
 
   reportFactory.generateReport();
+
 }
 
 main();

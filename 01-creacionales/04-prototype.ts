@@ -9,3 +9,40 @@
  * 
  * https://refactoring.guru/es/design-patterns/prototype
  */
+class Document {
+    public title: string;
+    private content: string; // Nivel de acceso protegido
+    public autor: string;
+
+    constructor(title:string,content:string,autor:string){
+        this.title = title;
+        this.content = content;
+        this.autor = autor;
+    }
+    
+    diplayInfo(){
+        console.log(`
+            Title: ${this.title}
+            Content: ${this.content}
+            Author: ${this.autor}
+        `)
+    }
+
+    clone():Document{
+        return new Document(this.title,this.content,this.autor)
+    }
+}
+
+
+function main(){
+    const documentOne = new Document('Cotización','500 dólares','Fernando')
+    console.log(documentOne)
+    documentOne.diplayInfo()
+
+    const documentTwo = documentOne.clone()
+    documentTwo.title = 'Nuevo Documento'
+    console.log({documentTwo})
+    documentOne.diplayInfo()
+}
+
+main()
